@@ -17,10 +17,8 @@ export class LoginForm extends React.Component<{}, ILoginState>
         btnAvaible: false
     };
 
-    Login(event: React.MouseEvent)
+    Login(email: string, password: string)
     {
-        event.preventDefault();
-
         if (this.state.email !== "" && this.state.password !== "") // TODO: валидация
         {
             const url: string = document.body.querySelector(".login__form")?.getAttribute("action") || "";
@@ -30,6 +28,7 @@ export class LoginForm extends React.Component<{}, ILoginState>
             request.addEventListener("readystatechange", () => {
                 if (request.readyState === 4 && request.status === 200)
                 {
+                    this.setState({btnAvaible: true});
                     console.log(request.response);
                 }
             })
@@ -40,7 +39,14 @@ export class LoginForm extends React.Component<{}, ILoginState>
         }
     }
 
-    Handler(event: React.FormEvent<HTMLInputElement>)
+    BtnHandler(event: React.MouseEvent)
+    {
+        event.preventDefault();
+        this.setState({btnAvaible: false});
+        this.Login(this.state.email, this.state.password);
+    }
+
+    InputHandler(event: React.FormEvent<HTMLInputElement>)
     {
         const target: HTMLInputElement = event.target as HTMLInputElement;
         const name: string = target.name;
@@ -70,7 +76,7 @@ export class LoginForm extends React.Component<{}, ILoginState>
                         required={true} 
                         className="login__input" 
                         value={this.state.email}
-                        onChange={(event) => this.Handler(event)} />
+                        onChange={(event) => this.InputHandler(event)} />
                     <input 
                         type="password" 
                         name="password" 
@@ -78,34 +84,15 @@ export class LoginForm extends React.Component<{}, ILoginState>
                         required={true} 
                         className="login__input"
                         value={this.state.password}
-                        onChange={(event) => this.Handler(event)} />
-                    <FormBtn avaible={this.state.btnAvaible} login={(event) => this.Login(event)} />
+                        onChange={(event) => this.InputHandler(event)} />
+                    <input 
+                        type="submit" 
+                        className="btn" 
+                        onClick={(event) => this.BtnHandler(event)} 
+                        value="Let me in." 
+                        disabled={!this.state.btnAvaible} />
                 </form>
             </div>
-        )
-    }
-}
-
-
-interface IFormBtnProps
-{
-    avaible: boolean
-    login(event: React.MouseEvent): void
-}
-
-
-class FormBtn extends React.Component<IFormBtnProps>
-{
-
-    render()
-    {
-        return(
-            <input 
-                type="submit" 
-                className="btn" 
-                onClick={(event) => this.props.login(event)} 
-                value="Let me in." 
-                disabled={!this.props.avaible} />
         )
     }
 }
