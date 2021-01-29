@@ -1,4 +1,4 @@
-const dist = "/home/fedor/Projects/timetracker-web/app/public/";
+const dist = "*";
 const dir = {
     dist: 
     {
@@ -24,6 +24,6 @@ function sass_compile() {
 
 
 exports.default = function() {
-    watch(dir.src.main_sass, sass_compile)
+    watch([dir.src.main_sass, "src/sass/components/AuthPage/LoginForm.sass"], sass_compile)
 }
 exports.build = series(sass_compile);
