@@ -51,9 +51,9 @@ export class LoginForm extends React.Component<{}, ILoginState>
         {
             this.setState(() => ({ password: value }));
             if (value.length < 4)
-                this.setState(() => ({btnAvaible: false}))
+                this.setState(() => ({btnAvaible: false}));
             else
-                this.setState(() => ({btnAvaible: true}))
+                this.setState(() => ({btnAvaible: true}));
         }
     }
 
