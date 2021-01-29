@@ -17,19 +17,11 @@ export class LoginForm extends React.Component<{}, ILoginState>
         btnAvaible: false
     };
 
-    Validation()
-    {
-        if (this.state.email !== "" && this.state.password !== "")
-            return true;
-        else
-            return false;
-    }
-
     Login(event: React.MouseEvent)
     {
         event.preventDefault();
 
-        if (this.Validation())
+        if (this.state.email !== "" && this.state.password !== "") // TODO: валидация
         {
             const url: string = document.body.querySelector(".login__form")?.getAttribute("action") || "";
             const request: XMLHttpRequest = new XMLHttpRequest();
@@ -56,7 +48,13 @@ export class LoginForm extends React.Component<{}, ILoginState>
         if (name === "email")
             this.setState({ email: value });
         else if ( name === "password")
-            this.setState({ password: value });
+        {
+            this.setState(() => ({ password: value }));
+            if (value.length < 4)
+                this.setState(() => ({btnAvaible: false}))
+            else
+                this.setState(() => ({btnAvaible: true}))
+        }
     }
 
     render()
@@ -81,13 +79,33 @@ export class LoginForm extends React.Component<{}, ILoginState>
                         className="login__input"
                         value={this.state.password}
                         onChange={(event) => this.Handler(event)} />
-                    <input 
-                        type="submit" 
-                        className="btn" 
-                        onClick={(event) => this.Login(event) } 
-                        value="Let me in." />
+                    <FormBtn avaible={this.state.btnAvaible} login={(event) => this.Login(event)} />
                 </form>
             </div>
+        )
+    }
+}
+
+
+interface IFormBtnProps
+{
+    avaible: boolean
+    login(event: React.MouseEvent): void
+}
+
+
+class FormBtn extends React.Component<IFormBtnProps>
+{
+
+    render()
+    {
+        return(
+            <input 
+                type="submit" 
+                className="btn" 
+                onClick={(event) => this.props.login(event)} 
+                value="Let me in." 
+                disabled={!this.props.avaible} />
         )
     }
 }
