@@ -1,10 +1,20 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { AuthPage } from "./pages/AuthPage";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
-      <h1>Hello world!</h1>
-    </>
+    <BrowserRouter>
+      <div id="wrapper">
+        <div id="container">
+          <Switch>
+            <Route path="/">
+              <AuthPage />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
