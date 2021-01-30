@@ -19,22 +19,23 @@ export class LoginForm extends React.Component<{}, ILoginState>
 
     Login(email: string, password: string)
     {
-        if (this.state.email !== "" && this.state.password !== "") // TODO: валидация
+        if (email !== "" && password !== "") // TODO: валидация
         {
             const url: string = document.body.querySelector(".login__form")?.getAttribute("action") || "";
             const request: XMLHttpRequest = new XMLHttpRequest();
             request.open("POST", url, true);
             request.setRequestHeader("Content-type", "application/json");
             request.addEventListener("readystatechange", () => {
-                if (request.readyState === 4 && request.status === 200)
+                if (request.readyState === 4)
                 {
+                    if (request.status === 200)
+                        console.log(request.response);
                     this.setState({btnAvaible: true});
-                    console.log(request.response);
                 }
             })
             request.send(JSON.stringify({
-                "email": this.state.email,
-                "password": this.state.password
+                "email": email,
+                "password": password
             }));
         }
     }
