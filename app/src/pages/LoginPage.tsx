@@ -1,6 +1,13 @@
 import React from "react";
 
 
+interface ILoginProps
+{
+    token: string,
+    onTokenChange(token: string): void
+}
+
+
 interface ILoginState
 {
     email: string;
@@ -9,7 +16,7 @@ interface ILoginState
 };
 
 
-export class LoginForm extends React.Component<{}, ILoginState>
+export class LoginPage extends React.Component<ILoginProps, ILoginState>
 {   
     state: ILoginState = {
         email: "",
@@ -29,7 +36,10 @@ export class LoginForm extends React.Component<{}, ILoginState>
                 if (request.readyState === 4)
                 {
                     if (request.status === 200)
-                        console.log(request.response);
+                    {
+                        const data = JSON.parse(request.response);
+                        this.props.onTokenChange(data.token);
+                    }
                     this.setState({btnAvaible: true});
                 }
             })
