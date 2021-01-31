@@ -1,6 +1,12 @@
 import React from "react";
 
 
+interface TokenJSON
+{
+    token: string
+}
+
+
 interface ILoginProps
 {
     token: string,
@@ -37,8 +43,9 @@ export class LoginPage extends React.Component<ILoginProps, ILoginState>
                 {
                     if (request.status === 200)
                     {
-                        const data = JSON.parse(request.response);
-                        this.props.onTokenChange(data.token);
+                        const data: TokenJSON = JSON.parse(request.response);
+                        const token: string = data.token;
+                        this.props.onTokenChange(token);
                     }
                     this.setState({btnAvaible: true});
                 }
@@ -76,35 +83,44 @@ export class LoginPage extends React.Component<ILoginProps, ILoginState>
 
     render()
     {
-        return(
-            <div className="login">
-                <h1>Login</h1>
-                <form method="post" className="login__form" action="http://localhost:5000/api/Account/login">
-                    <input 
-                        type="text" 
-                        name="email" 
-                        placeholder="Username" 
-                        required={true} 
-                        className="login__input" 
-                        value={this.state.email}
-                        onChange={(event) => this.InputHandler(event)} />
-                    <input 
-                        type="password" 
-                        name="password" 
-                        placeholder="Password" 
-                        required={true} 
-                        className="login__input"
-                        value={this.state.password}
-                        onChange={(event) => this.InputHandler(event)} />
-                    <input 
-                        type="submit" 
-                        className="btn" 
-                        onClick={(event) => this.BtnHandler(event)} 
-                        value="Let me in." 
-                        disabled={!this.state.btnAvaible} />
-                </form>
-                <link rel="stylesheet" href="css/pages/LoginPage.css"/> 
-            </div>
-        ) // TODO: реализовать динамические css в виде стейта????
+        if (this.props.token.length === 0)
+            return(
+                <div id="container">
+                    <div className="login">
+                        <h1>Login</h1>
+                        <form method="post" className="login__form" action="http://localhost:5000/api/Account/login">
+                            <input 
+                                type="text" 
+                                name="email" 
+                                placeholder="Username" 
+                                required={true} 
+                                className="login__input" 
+                                value={this.state.email}
+                                onChange={(event) => this.InputHandler(event)} />
+                            <input 
+                                type="password" 
+                                name="password" 
+                                placeholder="Password" 
+                                required={true} 
+                                className="login__input"
+                                value={this.state.password}
+                                onChange={(event) => this.InputHandler(event)} />
+                            <input 
+                                type="submit" 
+                                className="btn" 
+                                onClick={(event) => this.BtnHandler(event)} 
+                                value="Let me in." 
+                                disabled={!this.state.btnAvaible} />
+                        </form>
+                        <link rel="stylesheet" href="css/pages/LoginPage.css"/> 
+                    </div>
+                </div>
+            ); // TODO: реализовать динамические css в виде стейта????
+        else
+            return(
+                <div id="container">
+                    <h1>Вы авторизованы</h1>
+                </div>
+            );
     }
 }
