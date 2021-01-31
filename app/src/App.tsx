@@ -27,11 +27,19 @@ export class App extends React.Component<{}, IAppState>
     });
   }
 
+  LogOut()
+  {    
+    this.setState({
+      authToken: "",
+      isLoggedIn: false
+    });
+  }
+
   render()
   {
     return (
       <BrowserRouter>
-        <Header loginState={this.state.isLoggedIn} />
+        <Header loginState={this.state.isLoggedIn} logOut={this.LogOut.bind(this)} />
         <div id="wrapper">
           <Switch>
             <Route path="/" exact >
