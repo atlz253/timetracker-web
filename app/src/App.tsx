@@ -33,12 +33,14 @@ export class App extends React.Component<{}, IAppState>
       <BrowserRouter>
         <Header loginState={this.state.isLoggedIn} />
         <div id="wrapper">
-          <div id="container">
-            <Switch>
-              <Route component={IndexPage} path="/" exact />
-              <Route component={LoginPage} path="/login" token={this.state.authToken} onTokenChange={this.SetToken.bind(this)} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/" exact >
+              <IndexPage loginState={this.state.isLoggedIn} />
+            </Route>
+            <Route path="/login">
+              <LoginPage token={this.state.authToken} onTokenChange={this.SetToken.bind(this)} />
+            </Route>
+          </Switch>
         </div>
       </BrowserRouter>
     );
