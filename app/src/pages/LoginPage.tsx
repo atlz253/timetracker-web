@@ -103,8 +103,8 @@ export class LoginPage extends React.Component<ILoginProps, ILoginState>
                         value="Let me in." 
                         disabled={!this.state.btnAvaible} />
                 </form>
-                <link rel="stylesheet" href="css/pages/LoginPage.css"/> // TODO: реализовать динамические css в виде стейта????
+                <link rel="stylesheet" href="css/pages/LoginPage.css"/> 
             </div>
-        )
+        ) // TODO: реализовать динамические css в виде стейта????
     }
 }
