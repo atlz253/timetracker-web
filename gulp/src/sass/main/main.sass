@@ -1,7 +1,7 @@
+@import ../variables.sass
 @import ./normalizer.scss
 @import ./ubuntu.scss
-@import ../variables.sass
-@import ../components/AuthPage/LoginForm.sass
+@import ../components/Header/Header.sass
 
 
 *
@@ -14,13 +14,23 @@ html
     line-height: 1
     
 
+body
+    background-color: $backgroundColor
+
+
 h1, h2, h3, h4, h5, h6
     margin: 0
+
+
+ul
+    list-style-type: none
+    padding-inline-start: 0
 
 
 #wrapper
     display: flex
     justify-content: center
+    padding: 10px
 
 #container
     width: 100%
